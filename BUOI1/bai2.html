@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <style>
+        #map{
+            height: 900px;
+            width: 1850px;
+        }
+        /* Ví dụ: Tô màu viền cho bản đồ */
+        #map {
+            border: 2px solid #000;
+        }
+
+        /* Ví dụ: Thêm trang trí cho nút layer control */
+        /* .leaflet-control-layers {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+        } */
+
+        /* Ví dụ: Tùy chỉnh marker */
+        /* .marker-image {
+            width: 38px;
+            height: 38px;
+            background-image: url('Logo_HUE.png');
+            background-size: cover;
+            border-radius: 50%;
+        } */
+
+        /* Ví dụ: Tùy chỉnh popup */
+        /* .leaflet-popup-content {
+            text-align: center;
+        } */
+    </style>
+</head>
+<body>
+    <div id = "map"></div>
+    <!-- CAU1 -->
+    <script>
+
+        // Đặt toạ độ trung tâm tại Việt Nam và tỷ lệ zoom phù hợp
+        var map = L.map('map').setView([16.4, 107.7], 6);
+
+        // Tạo marker mặc định tại Hà Nội
+        var hanoiMarker = L.marker([21.0285, 105.8542]).addTo(map);
+
+        // Tạo marker dạng hình ảnh tại Huế
+        var hueIcon = L.icon({
+            iconUrl: 'Logo_HUE.png', // Thay đổi đường dẫn tới hình ảnh marker của bạn
+            iconSize: [38, 38], // Kích thước của hình ảnh marker
+            iconAnchor: [19, 38], // Điểm neo của hình ảnh marker
+            // popupAnchor: [0, -38] // Điểm neo của popup liên kết với hình ảnh marker
+        });
+
+        var hueMarker = L.marker([16.471934247625043, 107.5781473249243], { icon: hueIcon }).addTo(map);
+
+        // Tạo popup tại Cần Thơ
+        var canThoPopup = L.popup()
+            .setLatLng([10.030155, 105.769226])
+            .setContent("Welcome to Cần Thơ")
+            .openOn(map);
+
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    </script>
+    <!-- CÂU 2 -->
+    <script>
+        // Thêm một layer Tile với bản đồ OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    
+        // Thêm nút để thay đổi nền bản đồ
+        var baseLayers = {
+            "OpenStreetMap": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }),
+            "Google Maps": L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+                maxZoom: 20,
+                subdomains:['mt0','mt1','mt2','mt3']
+            })
+        };
+    
+        L.control.layers(baseLayers).addTo(map);
+    </script>
+</body>
+</html> 

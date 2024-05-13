@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HUYNHAN</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <style>
+        body{
+            border: 5px solid;
+            border-color: aqua;
+            padding: 1px;
+        }
+        #map{
+            height: 900px;
+            width: 100% ;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var map = L.map('map').setView([10.561802, 105.137056, -0.09], 9);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Mảng để giữ các điểm của đa giác
+        var polygons = [];
+
+        // Sự kiện click chuột trên bản đồ
+        function onMapClick(e) {
+            var latlng = e.latlng;
+            L.marker(e.latlng).addTo(map);
+            polygons.push([latlng.lat,latlng.lng]);
+            if (polygons.length >3){
+                var triangle = L.polygon(polygons,{color: 'red'}).addTo(map);
+                polygons = [];
+            }
+        }
+
+        // Bật sự kiện onClick cho bản đồ
+        map.on('click', onMapClick);
+    </script>
+</body>
+</html>

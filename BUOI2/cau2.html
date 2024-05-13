@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Câu 2a </title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 900px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([10.046871476392315, 105.76778341005097], 13); // Khởi tạo bản đồ Leaflet
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    //CÂU A: Hiển thị toạ độ điểm khi người dùng click chuột
+
+    map.on('click', function(event){
+        var clickedLatLng = event.latlng; // Lấy toạ độ khi click vào bản đồ
+        var popupContent = "Toạ độ: " + clickedLatLng.lat.toFixed(6) + ", " + clickedLatLng.lng.toFixed(6); // Chuỗi hiển thị toạ độ
+        L.popup()
+            .setLatLng(clickedLatLng)
+            .setContent(popupContent)
+            .openOn(map);
+    });
+
+    //CÂU B: Hiện thị Popup với nội dung bao gồm tên và logo
+
+    //Tạo nội dung cho popup
+    var popupContent = "<div style='text-align:center;color: red;'><br>Trường Đại học Kỹ thuật– Công nghệ Cần Thơ<img src='https://cdn.haitrieu.com/wp-content/uploads/2022/12/Artboard-2.png' style='width:100px;height:auto;margin-bottom:10px;'></div>";
+        
+    // Tạo popup và hiển thị ngay sau khi bản đồ được tạo
+    L.popup()
+        .setLatLng(map.getCenter()) // Đặt vị trí của popup là trung tâm của bản đồ
+        .setContent(popupContent)
+        .openOn(map);
+
+    //CÂU C: Lấy vị trí hiện tại của người dùng, hiển thị marker, popup, di chuyển bản đồ đến vị trí đó
+
+    // Lấy vị trí hiện tại của người dùng
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var userLat = position.coords.latitude;
+            var userLng = position.coords.longitude;
+
+            // Hiển thị marker tại vị trí của người dùng
+            var userMarker = L.marker([userLat, userLng]).addTo(map);
+
+            // Tạo nội dung cho popup
+            var popupContent = "<div style='text-align:center;color: red;'><br>Bạn đang ở đây</div>";
+
+            // Tạo popup và gán cho marker
+            userMarker.bindPopup(popupContent).openPopup();
+
+            // Di chuyển bản đồ đến vị trí của người dùng
+            map.setView([userLat, userLng], 13);
+        });
+    } else {
+        alert("Geolocation is not supported by your browser.");
+    }
+
+
+</script>
+
+</body>
+</html>
