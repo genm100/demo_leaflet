@@ -27,7 +27,8 @@
 
     map.on('click', function(event){
         var clickedLatLng = event.latlng; // Lấy toạ độ khi click vào bản đồ
-        var popupContent = "Toạ độ: " + clickedLatLng.lat.toFixed(6) + ", " + clickedLatLng.lng.toFixed(6); // Chuỗi hiển thị toạ độ
+        var Content  = "Toạ độ: " + clickedLatLng.lat.toFixed(6) + ", " + clickedLatLng.lng.toFixed(6); // Chuỗi hiển thị toạ độ
+        var popupContent = `<div style='text-align:center;color: red;'><br>Trường Đại học Kỹ thuật– Công nghệ Cần Thơ<img src='https://cdn.haitrieu.com/wp-content/uploads/2022/12/Artboard-2.png' style='width:100px;height:auto;margin-bottom:10px;'><div>${Content}</div></div>`;
         L.popup()
             .setLatLng(clickedLatLng)
             .setContent(popupContent)
